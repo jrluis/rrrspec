@@ -12,8 +12,12 @@ Time.zone_default = Time.find_zone('UTC')
 require 'rrrspec/configuration'
 require 'rrrspec/extension'
 require 'rrrspec/redis_models'
+require 'rrrspec/registry'
+require 'rrrspec/client/rspec_runner_factory'
 
 module RRRSpec
+  Registry.register_runner_factory RRRSpec::Client::RSpecRunnerFactory.new
+
   module_function
 
   def configuration
