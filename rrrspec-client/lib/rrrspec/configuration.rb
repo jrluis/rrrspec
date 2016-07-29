@@ -1,7 +1,14 @@
+require 'rrrspec/client/rspec_runner_factory'
+
 module RRRSpec
   class Configuration
     attr_accessor :loaded
     attr_reader :type
+    attr_accessor :runner_chain
+
+    def initialize
+      @runner_chain = RRRSpec::Client::RSpecRunnerFactory.new nil
+    end
 
     def redis=(arg)
       @redis_value = arg
