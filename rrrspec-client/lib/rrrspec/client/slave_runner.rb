@@ -113,42 +113,57 @@ module RRRSpec
         end
 
         module ClassMethods
-          attr_reader :passed, :pending, :failed
 
           def reset
-            @passed = 0
-            @pending = 0
-            @failed = 0
-            @timeout = false
+            Thread.current[:redis_reporting_formatter_passed] = 0
+            Thread.current[:redis_reporting_formatter_pending] = 0
+            Thread.current[:redis_reporting_formatter_failed] = 0
+            Thread.current[:redis_reporting_formatter_timeout] = false
           end
 
           def example_passed
-            @passed += 1
+            Thread.current[:redis_reporting_formatter_passed] += 1
           end
 
           def example_pending
-            @pending += 1
+            Thread.current[:redis_reporting_formatter_pending] += 1
           end
 
           def example_failed(notification)
-            @failed += 1
+            Thread.current[:redis_reporting_formatter_failed] += 1
             return if !notification.respond_to?(:exception)
 
             if notification.exception.is_a?(SoftTimeoutException)
-              @timeout = true
+              Thread.current[:redis_reporting_formatter_timeout] = true
             end
           end
 
           def status
-            if @timeout
+            if Thread.current[:redis_reporting_formatter_timeout]
               'timeout'
-            elsif @failed != 0
+            elsif Thread.current[:redis_reporting_formatter_failed] != 0
               'failed'
-            elsif @pending != 0
+            elsif Thread.current[:redis_reporting_formatter_pending] != 0
               'pending'
             else
               'passed'
             end
+          end
+
+          def passed
+            Thread.current[:redis_reporting_formatter_passed]
+          end
+
+          def pending
+            Thread.current[:redis_reporting_formatter_pending]
+          end
+
+          def failed
+            Thread.current[:redis_reporting_formatter_failed]
+          end
+
+          def timeout
+            Thread.current[:redis_reporting_formatter_timeout]
           end
         end
         extend ClassMethods
