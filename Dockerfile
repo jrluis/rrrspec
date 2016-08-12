@@ -1,4 +1,4 @@
-FROM ruby:2.2
+FROM ruby:2.2.3
 MAINTAINER Kohei Suzuki <eagletmt@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
