@@ -57,7 +57,7 @@ module RRRSpec
           trial = Trial.create(task, @slave)
 
           task_file_ext = File.extname(task.spec_file)
-          runner = RRRSpec::Registry.create_runner(task_file_ext)
+          runner = RRRSpec::Registry.get_runner(task_file_ext)
 
           runner.reset
           $0 = "rrrspec slave[#{ENV['SLAVE_NUMBER']}]: setting up #{task.spec_file}"

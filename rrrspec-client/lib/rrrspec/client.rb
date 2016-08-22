@@ -1,6 +1,6 @@
 require 'rrrspec'
+require 'rrrspec/registry'
 require 'rrrspec/client/configuration'
 require 'rrrspec/client/rspec_runner'
 require 'rrrspec/client/slave_runner'
 require 'rrrspec/client/support'
-require 'rrrspec/client/rspec_runner_factory'

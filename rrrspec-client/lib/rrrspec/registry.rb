@@ -1,25 +1,24 @@
+require 'rrrspec/client/rspec_runner'
+
 module RRRSpec
   module Registry
 
-    @@runner_factories =[]
+    @@runners = Hash.new
 
-    def self.reset
-      @@runner_factories = []
+    def self.reset_runners
+      @@runners = []
     end
 
-    def self.register_runner_factory(factory)
-      @@runner_factories << factory
+    def self.register_runner(factory, file_extension)
+      @@runners[file_extension] = factory
     end
 
 
-    def self.create_runner(file_extension)
-      @@runner_factories.each do |factory|
-        runner = factory.create(file_extension)
-        return runner unless runner.nil?
-      end
-
-      nil
+    def self.get_runner(file_extension)
+      @@runners[file_extension]
     end
 
   end
+
+  Registry.register_runner RRRSpec::Client::RSpecRunner.new, '.rb'
 end
