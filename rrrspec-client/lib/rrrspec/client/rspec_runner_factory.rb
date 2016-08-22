@@ -1,3 +1,4 @@
+require 'rrrspec/registry'
 require 'rrrspec/client/rspec_runner'
 
 module RRRSpec
@@ -12,5 +13,7 @@ module RRRSpec
         return @runner if file_extension == '.rb'
       end
     end
+
+    Registry.register_runner_factory RRRSpec::Client::RSpecRunnerFactory.new
   end
 end
